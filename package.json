@@ -1,0 +1,27 @@
+{
+  "name": "hamster-react",
+  "version": "0.0.1",
+  "description": "React bindings for hamster-redux",
+  "main": "src/index.js",
+  "exports": {
+    "./": "./src/"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.cityads.com:a.mayants/hamster-react.git"
+  },
+  "peerDependencies": {
+    "react": "^16.9.0",
+    "react-redux": "^7.2.0"
+  },
+  "keywords": [
+    "react",
+    "redux",
+    "entity"
+  ],
+  "author": "Alex Mayants <a.mayants@cityads.team>",
+  "license": "ISC"
+}
