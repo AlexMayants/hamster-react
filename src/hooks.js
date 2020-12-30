@@ -66,7 +66,7 @@ export function useEntitiesByIds(typeName, ids) {
   }, [store, typeName, ids, forcedReload]);
 
   useEffect(() => {
-    return store.subscribe(typeName, (updatedIds, action) => {
+    return store.subscribe(typeName, updatedIds => {
       const currentIds = new Set(ids.map(id => String(id)));
 
       if (updatedIds.some(id => currentIds.has(String(id)))) {
