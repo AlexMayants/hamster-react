@@ -2,16 +2,14 @@ import { useContext, useState, useEffect, useCallback, useRef, useReducer } from
 import HamsterContext from './HamsterContext';
 
 export function usePromiseCallback(promiseCallback) {
-  const [isWaiting, setIsWaiting] = useState(true);
-  const [data, setData] = useState(null);
-  const [error, setError] = useState(null);
+  // We use single state value, because async state updates are (as of React 16) not batched (see https://stackoverflow.com/a/53048903).
+  // With separate state values we are going to end up with inconsistent state in the middle of promise resolution/rejection.
+  const [[isWaiting, error, data], setState] = useState([true, null, null]);
 
   const promiseRef = useRef(null);
 
   useEffect(() => {
-    setIsWaiting(true);
-    setData(null);
-    setError(null);
+    setState([true, null, null]);
 
     const promise = promiseRef.current = promiseCallback();
 
@@ -19,14 +17,12 @@ export function usePromiseCallback(promiseCallback) {
       .then(result => {
         if (promise !== promiseRef.current) { return; }
 
-        setData(result);
-        setIsWaiting(false);
+        setState([false, null, result]);
       })
       .catch(err => {
         if (promise !== promiseRef.current) { return; }
 
-        setError(err);
-        setIsWaiting(false);
+        setState([false, err, null]);
       })
     ;
 
@@ -57,7 +53,7 @@ export function useContainerItem(name) {
 export function useEntitiesByIds(typeName, ids) {
   const store = useContainerItem('store');
 
-  const [forcedReload, forceReload] = useReducer(r => r + 1, 0); // аналогично useSelector из react-redux
+  const [forcedReload, forceReload] = useReducer(r => r + 1, 0); // similar to useSelector from react-redux
 
   const loadEntities = useCallback(() => {
     // eslint-disable-next-line no-unused-expressions
