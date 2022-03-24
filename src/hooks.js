@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect, useCallback, useRef, useReducer } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import HamsterContext from './HamsterContext';
 
 export function usePromiseCallback(promiseCallback) {
@@ -74,4 +74,19 @@ export function useEntitiesByIds(typeName, ids) {
   }, [store, typeName, ids]);
 
   return usePromiseCallback(loadEntities);
+}
+
+export function useEntitiesByQuery(typeName, query) {
+  const store = useContainerItem('store');
+
+  const queryEntities = useCallback(() => {
+    return store.query(typeName, query);
+  }, [store, typeName, query]);
+
+  const queryResult = usePromiseCallback(queryEntities);
+  const ids = useMemo(() => queryResult.data?.map(entity => entity.id) || [], [queryResult.data]);
+
+  const entitiesResult = useEntitiesByIds(typeName, ids);
+
+  return queryResult.data ? entitiesResult : queryResult;
 }
