@@ -5,4 +5,5 @@ export {
   useContainer,
   useContainerItem,
   useEntitiesByIds,
+  useEntitiesByQuery,
 } from './hooks';
