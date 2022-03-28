@@ -80,6 +80,10 @@ export function useEntitiesByQuery(typeName, query) {
   const store = useContainerItem('store');
 
   const queryEntities = useCallback(() => {
+    if (!query) {
+      return Promise.resolve([]);
+    }
+
     return store.query(typeName, query);
   }, [store, typeName, query]);
 
@@ -89,4 +93,36 @@ export function useEntitiesByQuery(typeName, query) {
   const entitiesResult = useEntitiesByIds(typeName, ids);
 
   return queryResult.data ? entitiesResult : queryResult;
+}
+
+export function useUpdateStoreEntity() {
+  const store = useContainerItem('store');
+
+  return useCallback((typeName, entity) => {
+    return store.updateStoreEntity(typeName, entity);
+  }, [store]);
+}
+
+export function useCreateEntity() {
+  const store = useContainerItem('store');
+
+  return useCallback((typeName, data, options) => {
+    return store.createEntity(typeName, data, options);
+  }, [store]);
+}
+
+export function useUpdateEntity() {
+  const store = useContainerItem('store');
+
+  return useCallback((typeName, id, options) => {
+    return store.updateEntity(typeName, id, options);
+  }, [store]);
+}
+
+export function useDeleteEntity() {
+  const store = useContainerItem('store');
+
+  return useCallback((typeName, id, options) => {
+    return store.deleteEntity(typeName, id, options);
+  }, [store]);
 }

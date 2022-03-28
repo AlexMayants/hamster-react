@@ -6,4 +6,8 @@ export {
   useContainerItem,
   useEntitiesByIds,
   useEntitiesByQuery,
+  useUpdateStoreEntity,
+  useCreateEntity,
+  useUpdateEntity,
+  useDeleteEntity,
 } from './hooks';
