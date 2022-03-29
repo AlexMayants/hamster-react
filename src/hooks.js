@@ -92,7 +92,15 @@ export function useEntitiesByQuery(typeName, query) {
 
   const entitiesResult = useEntitiesByIds(typeName, ids);
 
-  return queryResult.data ? entitiesResult : queryResult;
+  if (queryResult.data) {
+    if (entitiesResult.data) {
+      entitiesResult.data.meta = queryResult.data.meta;
+    }
+
+    return entitiesResult;
+  }
+
+  return queryResult;
 }
 
 export function useUpdateStoreEntity() {
