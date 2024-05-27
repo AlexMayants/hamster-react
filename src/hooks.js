@@ -52,6 +52,8 @@ export function useContainerItem(name) {
 
 export function useEntitiesByIds(typeName, ids) {
   const store = useContainerItem('store');
+  const schema = useContainerItem(`schema:${typeName}`);
+  const idTransform = useContainerItem(`transform:${schema.id}`);
 
   const [forcedReload, forceReload] = useReducer(r => r + 1, 0); // similar to useSelector from react-redux
 
@@ -63,15 +65,15 @@ export function useEntitiesByIds(typeName, ids) {
 
   useEffect(() => {
     return store.subscribe(typeName, updatedIds => {
-      const currentIds = new Set(ids.map(id => String(id)));
+      const currentIds = new Set(ids.map(id => idTransform.normalizeId(id)));
 
-      if (updatedIds.some(id => currentIds.has(String(id)))) {
+      if (updatedIds.some(id => currentIds.has(idTransform.normalizeId(id)))) {
         setTimeout(() => {
           forceReload();
         });
       }
     });
-  }, [store, typeName, ids]);
+  }, [store, typeName, idTransform, ids]);
 
   return usePromiseCallback(loadEntities);
 }
