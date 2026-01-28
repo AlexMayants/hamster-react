@@ -1,6 +1,6 @@
 {
   "name": "hamster-react",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "React bindings for hamster-redux",
   "main": "lib/index.js",
   "module": "es/index.js",
@@ -16,7 +16,7 @@
   },
   "peerDependencies": {
     "hamster-redux": "~0.2.0",
-    "react": "^16.9.0 || ^17.0.0",
+    "react": "^16.9.0 || ^17.0.0 || ^18.0.0 || ^19.0.0",
     "react-redux": "^7.2.0"
   },
   "keywords": [
